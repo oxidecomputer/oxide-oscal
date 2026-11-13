@@ -1,0 +1,773 @@
+# yaml-language-server: $schema=https://github.com/usnistgov/OSCAL/releases/download/v1.2.3/oscal_profile_schema.json
+# ============================================================================
+# CNSSI No. 1253: NSS Baseline H-H-H
+# OSCAL Profile (non-authoritative transcription)
+# ----------------------------------------------------------------------------
+# Source document:   CNSSI No. 1253, "Categorization and Control Selection for
+#                    National Security Systems", 29 July 2022
+#                    https://www.cnss.gov/  (canonical host)
+#                    This profile transcribes the control selection in the
+#                    H-H-H column of Appendix D (Tables D-1 through D-20).
+#                    The Appendix D NSS parameter values are NOT yet
+#                    transcribed (see the commented-out `modify` section).
+# Authority note:    CNSS has not published an official OSCAL profile for
+#                    CNSSI 1253. This file is a transcription
+#                    authored by Oxide Computer Company for use in its OSCAL
+#                    component definition. It is NOT a substitute for the
+#                    canonical CNSSI document. Discrepancies are resolved in
+#                    favor of the CNSS-published PDF.
+# Underlying catalog: NIST SP 800-53 Rev 5 (per CNSSI 1253 Section 1.1)
+# ============================================================================
+
+profile:
+  uuid: 7c15e5bf-de75-4a7c-bce3-ff1beddafd22
+
+  metadata:
+    title: "CNSSI No. 1253 H-H-H NSS Baseline: Oxide Transcription"
+    published: 2026-04-21T00:00:00Z # update on first publication
+    last-modified: 2026-11-13T00:00:00Z # update on every revision
+    version: "0.1.0" # semver; bump on any content change
+    oscal-version: 1.2.3
+
+    roles:
+      - id: component-provider
+        title: Component Provider
+      - id: creator
+        title: Document Creator
+      - id: contact
+        title: Point of Contact
+
+    parties:
+      - uuid: 1fd0ef7d-e65f-483c-8ce0-f6d99eb6516e
+        type: organization
+        name: Oxide Computer Company
+        short-name: Oxide
+        links:
+          - href: https://oxide.computer
+            rel: website
+      - uuid: a182ded0-c5b0-4f37-b476-02b391327ce7
+        type: organization
+        name: Oxide Computer Company Security Team
+        email-addresses:
+          - security@oxidecomputer.com
+        member-of-organizations:
+          - 1fd0ef7d-e65f-483c-8ce0-f6d99eb6516e
+
+    responsible-parties:
+      - role-id: creator
+        party-uuids:
+          - a182ded0-c5b0-4f37-b476-02b391327ce7
+      - role-id: contact
+        party-uuids:
+          - a182ded0-c5b0-4f37-b476-02b391327ce7
+
+    remarks: >-
+      This profile is a non-authoritative OSCAL transcription of the CNSSI
+      No. 1253 H-H-H (High Confidentiality, High Integrity, High Availability)
+      NSS baseline. The canonical source of truth is the CNSS-published PDF
+      referenced in back-matter. The Classified System Overlay (CNSSI 1253E5)
+      is not applied in this profile; see the companion overlay profile.
+
+      This profile carries the control selection only. The NSS-specific
+      parameter values in Appendix D are not transcribed; take them from
+      the published document.
+
+  imports:
+    - href: "#b2747bf7-0e5b-4954-bb80-6b1881a63dbf"
+      include-controls:
+        - with-ids:
+            # Access Control (AC)
+            - ac-1
+            - ac-2
+            - ac-2.1
+            - ac-2.2
+            - ac-2.3
+            - ac-2.4
+            - ac-2.5
+            - ac-2.7
+            - ac-2.9
+            - ac-2.11
+            - ac-2.12
+            - ac-2.13
+            - ac-3
+            - ac-3.4
+            - ac-4
+            - ac-4.4
+            - ac-5
+            - ac-6
+            - ac-6.1
+            - ac-6.2
+            - ac-6.3
+            - ac-6.5
+            - ac-6.7
+            - ac-6.8
+            - ac-6.9
+            - ac-6.10
+            - ac-7
+            - ac-8
+            - ac-10
+            - ac-11
+            - ac-11.1
+            - ac-12
+            - ac-12.1
+            - ac-12.2
+            - ac-14
+            - ac-16
+            - ac-16.6
+            - ac-16.7
+            - ac-17
+            - ac-17.1
+            - ac-17.2
+            - ac-17.3
+            - ac-17.4
+            - ac-17.6
+            - ac-17.9
+            - ac-17.10
+            - ac-18
+            - ac-18.1
+            - ac-18.3
+            - ac-18.4
+            - ac-18.5
+            - ac-19
+            - ac-19.5
+            - ac-20
+            - ac-20.1
+            - ac-20.2
+            - ac-20.3
+            - ac-21
+            - ac-22
+            - ac-23
+
+            #   AT (Awareness and Training)
+            - at-1
+            - at-2
+            - at-2.2
+            - at-2.3
+            - at-2.4
+            - at-2.5
+            - at-2.6
+            - at-3
+            - at-3.1
+            - at-3.2
+            - at-4
+            - at-6
+
+            # Audit and Accountability (AU)
+            - au-1
+            - au-2
+            - au-3
+            - au-3.1
+            - au-4
+            - au-4.1
+            - au-5
+            - au-5.1
+            - au-5.2
+            - au-6
+            - au-6.1
+            - au-6.3
+            - au-6.4
+            - au-6.5
+            - au-6.6
+            - au-7
+            - au-7.1
+            - au-8
+            - au-9
+            - au-9.2
+            - au-9.3
+            - au-9.4
+            - au-9.5
+            - au-9.6
+            - au-10
+            - au-11
+            - au-11.1
+            - au-12
+            - au-12.1
+            - au-12.3
+            - au-14
+            - au-14.1
+            - au-14.3
+            - au-16
+            - au-16.1
+            - au-16.2
+
+            # CA (Assessment, Authorization, and Monitoring)
+            - ca-1
+            - ca-2
+            - ca-2.1
+            - ca-2.2
+            - ca-3
+            - ca-3.6
+            - ca-5
+            - ca-6
+            - ca-7
+            - ca-7.1
+            - ca-7.3
+            - ca-7.4
+            - ca-7.5
+            - ca-7.6
+            - ca-8
+            - ca-8.1
+            - ca-8.3
+            - ca-9
+
+            # Configuration Management (CM)
+            - cm-1
+            - cm-2
+            - cm-2.2
+            - cm-2.3
+            - cm-2.7
+            - cm-3
+            - cm-3.1
+            - cm-3.2
+            - cm-3.4
+            - cm-3.6
+            - cm-3.7
+            - cm-3.8
+            - cm-4
+            - cm-4.1
+            - cm-4.2
+            - cm-5
+            - cm-5.1
+            - cm-5.5
+            - cm-5.6
+            - cm-6
+            - cm-6.1
+            - cm-6.2
+            - cm-7
+            - cm-7.1
+            - cm-7.2
+            - cm-7.3
+            - cm-7.5
+            - cm-7.8
+            - cm-7.9
+            - cm-8
+            - cm-8.1
+            - cm-8.2
+            - cm-8.3
+            - cm-8.4
+            - cm-9
+            - cm-10
+            - cm-10.1
+            - cm-11
+            - cm-11.2
+            - cm-12
+            - cm-12.1
+            - cm-14
+
+            # CP (Contingency Planning)
+            - cp-1
+            - cp-2
+            - cp-2.1
+            - cp-2.2
+            - cp-2.3
+            - cp-2.5
+            - cp-2.8
+            - cp-3
+            - cp-3.1
+            - cp-4
+            - cp-4.1
+            - cp-4.2
+            - cp-6
+            - cp-6.1
+            - cp-6.2
+            - cp-6.3
+            - cp-7
+            - cp-7.1
+            - cp-7.2
+            - cp-7.3
+            - cp-7.4
+            - cp-8
+            - cp-8.1
+            - cp-8.2
+            - cp-8.3
+            - cp-8.4
+            - cp-9
+            - cp-9.1
+            - cp-9.2
+            - cp-9.3
+            - cp-9.5
+            - cp-9.8
+            - cp-10
+            - cp-10.2
+            - cp-10.4
+
+            # Identification and Authentication (IA)
+            - ia-1
+            - ia-2
+            - ia-2.1
+            - ia-2.2
+            - ia-2.5
+            - ia-2.6
+            - ia-2.8
+            - ia-2.12
+            - ia-3
+            - ia-3.1
+            - ia-4
+            - ia-4.4
+            - ia-4.9
+            - ia-5
+            - ia-5.1
+            - ia-5.2
+            - ia-5.6
+            - ia-5.7
+            - ia-5.8
+            - ia-5.13
+            - ia-5.14
+            - ia-5.16
+            - ia-6
+            - ia-7
+            - ia-8
+            - ia-8.1
+            - ia-8.2
+            - ia-8.4
+            - ia-9
+            - ia-10
+            - ia-11
+            - ia-12
+            - ia-12.1
+            - ia-12.2
+            - ia-12.3
+            - ia-12.4
+
+            # IR (Incident Response)
+            - ir-1
+            - ir-2
+            - ir-2.1
+            - ir-2.2
+            - ir-3
+            - ir-3.2
+            - ir-4
+            - ir-4.1
+            - ir-4.3
+            - ir-4.4
+            - ir-4.6
+            - ir-4.7
+            - ir-4.8
+            - ir-4.10
+            - ir-4.11
+            - ir-4.12
+            - ir-4.13
+            - ir-4.14
+            - ir-5
+            - ir-5.1
+            - ir-6
+            - ir-6.1
+            - ir-6.2
+            - ir-6.3
+            - ir-7
+            - ir-7.1
+            - ir-7.2
+            - ir-8
+            - ir-9
+            - ir-9.2
+            - ir-9.4
+
+            # MA (Maintenance)
+            - ma-1
+            - ma-2
+            - ma-2.2
+            - ma-3
+            - ma-3.1
+            - ma-3.2
+            - ma-3.3
+            - ma-3.4
+            - ma-3.5
+            - ma-3.6
+            - ma-4
+            - ma-4.1
+            - ma-4.3
+            - ma-4.4
+            - ma-4.6
+            - ma-4.7
+            - ma-5
+            - ma-5.1
+            - ma-6
+            - ma-6.1
+
+            # MP (Media Protection)
+            - mp-1
+            - mp-2
+            - mp-3
+            - mp-4
+            - mp-5
+            - mp-6
+            - mp-6.1
+            - mp-6.2
+            - mp-6.3
+            - mp-7
+
+            # PE (Physical and Environmental Protection)
+            - pe-1
+            - pe-2
+            - pe-3
+            - pe-3.1
+            - pe-4
+            - pe-5
+            - pe-6
+            - pe-6.1
+            - pe-6.4
+            - pe-8
+            - pe-8.1
+            - pe-8.3
+            - pe-9
+            - pe-10
+            - pe-11
+            - pe-11.1
+            - pe-12
+            - pe-13
+            - pe-13.1
+            - pe-13.2
+            - pe-14
+            - pe-15
+            - pe-15.1
+            - pe-16
+            - pe-17
+            - pe-18
+            - pe-22
+            - pe-23
+
+            # PL (Planning)
+            - pl-1
+            - pl-2
+            - pl-4
+            - pl-4.1
+            - pl-7
+            - pl-8
+            - pl-8.1
+            - pl-8.2
+            - pl-9
+            - pl-10
+            - pl-11
+
+            # PM (Program Management)
+
+            # PS (Personnel Security)
+            - ps-1
+            - ps-2
+            - ps-3
+            - ps-3.4
+            - ps-4
+            - ps-4.1
+            - ps-4.2
+            - ps-5
+            - ps-6
+            - ps-6.3
+            - ps-7
+            - ps-8
+            - ps-9
+
+            # PT (PII Processing and Transparency)
+
+            # RA (Risk Assessment)
+            - ra-1
+            - ra-2
+            - ra-3
+            - ra-3.1
+            - ra-3.2
+            - ra-3.3
+            - ra-5
+            - ra-5.2
+            - ra-5.4
+            - ra-5.5
+            - ra-5.10
+            - ra-5.11
+            - ra-7
+            - ra-9
+            - ra-10
+
+            # SA (System and Services Acquisition)
+            - sa-1
+            - sa-2
+            - sa-3
+            - sa-3.1
+            - sa-3.2
+            - sa-3.3
+            - sa-4
+            - sa-4.1
+            - sa-4.2
+            - sa-4.3
+            - sa-4.5
+            - sa-4.7
+            - sa-4.9
+            - sa-4.10
+            - sa-5
+            - sa-8
+            - sa-8.1
+            - sa-8.2
+            - sa-8.3
+            - sa-8.4
+            - sa-8.5
+            - sa-8.6
+            - sa-8.7
+            - sa-8.9
+            - sa-8.10
+            - sa-8.11
+            - sa-8.12
+            - sa-8.13
+            - sa-8.14
+            - sa-8.15
+            - sa-8.16
+            - sa-8.17
+            - sa-8.18
+            - sa-8.19
+            - sa-8.20
+            - sa-8.21
+            - sa-8.22
+            - sa-8.23
+            - sa-8.24
+            - sa-8.25
+            - sa-8.26
+            - sa-8.27
+            - sa-8.28
+            - sa-8.29
+            - sa-8.30
+            - sa-8.31
+            - sa-8.32
+            - sa-9
+            - sa-9.1
+            - sa-9.2
+            - sa-9.3
+            - sa-9.8
+            - sa-10
+            - sa-10.1
+            - sa-10.3
+            - sa-10.7
+            - sa-11
+            - sa-11.1
+            - sa-11.2
+            - sa-15
+            - sa-15.3
+            - sa-15.7
+            - sa-16
+            - sa-17
+            - sa-21
+            - sa-22
+
+            # System and Communications Protection (SC)
+            - sc-1
+            - sc-2
+            - sc-3
+            - sc-4
+            - sc-5
+            - sc-5.1
+            - sc-5.2
+            - sc-5.3
+            - sc-7
+            - sc-7.3
+            - sc-7.4
+            - sc-7.5
+            - sc-7.7
+            - sc-7.8
+            - sc-7.9
+            - sc-7.10
+            - sc-7.11
+            - sc-7.12
+            - sc-7.13
+            - sc-7.14
+            - sc-7.15
+            - sc-7.18
+            - sc-7.21
+            - sc-7.25
+            - sc-7.28
+            - sc-7.29
+            - sc-8
+            - sc-8.1
+            - sc-8.2
+            - sc-10
+            - sc-12
+            - sc-12.1
+            - sc-13
+            - sc-15
+            - sc-16
+            - sc-16.1
+            - sc-16.2
+            - sc-16.3
+            - sc-17
+            - sc-18
+            - sc-18.1
+            - sc-18.2
+            - sc-18.3
+            - sc-18.4
+            - sc-20
+            - sc-21
+            - sc-22
+            - sc-23
+            - sc-23.1
+            - sc-23.3
+            - sc-23.5
+            - sc-24
+            - sc-28
+            - sc-28.1
+            - sc-28.3
+            - sc-38
+            - sc-39
+            - sc-41
+            - sc-45
+            - sc-45.1
+            - sc-47
+
+            # System and Information Integrity (SI)
+            - si-1
+            - si-2
+            - si-2.2
+            - si-2.3
+            - si-2.4
+            - si-2.6
+            - si-3
+            - si-3.10
+            - si-4
+            - si-4.1
+            - si-4.2
+            - si-4.4
+            - si-4.5
+            - si-4.10
+            - si-4.11
+            - si-4.12
+            - si-4.14
+            - si-4.15
+            - si-4.16
+            - si-4.19
+            - si-4.20
+            - si-4.22
+            - si-4.23
+            - si-4.24
+            - si-4.25
+            - si-5
+            - si-5.1
+            - si-6
+            - si-6.3
+            - si-7
+            - si-7.1
+            - si-7.2
+            - si-7.5
+            - si-7.7
+            - si-7.8
+            - si-7.9
+            - si-7.10
+            - si-7.15
+            - si-7.17
+            - si-8
+            - si-8.2
+            - si-10
+            - si-10.3
+            - si-10.5
+            - si-10.6
+            - si-11
+            - si-12
+            - si-12.3
+            - si-15
+            - si-16
+            - si-21
+
+            # Supply Chain Risk Management (SR)
+            - sr-1
+            - sr-2
+            - sr-2.1
+            - sr-3
+            - sr-3.1
+            - sr-3.2
+            - sr-3.3
+            - sr-4
+            - sr-5
+            - sr-5.1
+            - sr-5.2
+            - sr-6
+            - sr-6.1
+            - sr-7
+            - sr-8
+            - sr-9
+            - sr-9.1
+            - sr-10
+            - sr-11
+            - sr-11.1
+            - sr-11.2
+            - sr-12
+
+  # --------------------------------------------------------------------------
+  # Merge - organize the resolved catalog. `as-is: true` preserves the SP
+  # 800-53 Rev 5 family structure in the resolved profile catalog.
+  # --------------------------------------------------------------------------
+  merge:
+    as-is: true
+
+  # --------------------------------------------------------------------------
+  # Modify: NSS-specific parameter values from Appendix D. NOT YET POPULATED.
+  # In the 2022 edition, NSS parameter values are embedded directly in the
+  # Appendix D tables (rather than in a separate appendix as in the 2014
+  # edition). Where Appendix D specifies a value that differs from the SP
+  # 800-53B default or narrows an organization-defined parameter, record it
+  # as a set-parameter below.
+  # --------------------------------------------------------------------------
+  # modify:
+  #   set-parameters:
+  #     # ====================================================================
+  #     # TRANSCRIPTION TODO - populate from CNSSI 1253 Appendix D parameter
+  #     # columns. The two entries below are illustrative placeholders showing
+  #     # the expected shape; replace with real Appendix D values.
+  #     # ====================================================================
+
+  #     # Illustrative: AC-2(3) - time period for disabling inactive accounts
+  #     - param-id: ac-02.03_odp.01
+  #       values:
+  #         - "REPLACE_WITH_APPENDIX_D_VALUE"
+  #       remarks: >-
+  #         Replace the value above with the parameter value specified in
+  #         CNSSI 1253 Appendix D, Table D-1, for AC-2(3) at the H-H-H column.
+
+  #     # Illustrative: AU-11 - audit record retention period
+  #     - param-id: au-11_odp
+  #       values:
+  #         - "REPLACE_WITH_APPENDIX_D_VALUE"
+  #       remarks: >-
+  #         Replace the value above with the parameter value specified in
+  #         CNSSI 1253 Appendix D, Table D-3, for AU-11 at the H-H-H column.
+
+  #   # If CNSSI 1253 Appendix D adds control enhancements or supplemental
+  #   # guidance beyond what SP 800-53B specifies at the High level, express
+  #   # them as `alters` entries below. Most of the NSS baseline is control
+  #   # selection plus parameter overrides, so `alters` is typically sparse.
+  #   # alters:
+  #   #   - control-id: <control-id>
+  #   #     adds:
+  #   #       - by-id: <enhancement-id>
+  #   #         props: [...]
+
+  back-matter:
+    resources:
+      - uuid: 4b3b089c-11cd-45a7-9002-f986d76f4aef
+        title: "CNSSI No. 1253, Categorization and Control Selection for National Security Systems"
+        citation:
+          text: >-
+            Committee on National Security Systems, CNSSI No. 1253,
+            "Categorization and Control Selection for National Security
+            Systems", 29 July 2022. Supersedes CNSSI No. 1253 dated
+            27 March 2014.
+        rlinks:
+          - href: https://www.cnss.gov/
+            media-type: text/html
+        props:
+          - name: version
+            value: "2022-07-29"
+        remarks: >-
+          Authoritative source of the H-H-H baseline transcribed in this
+          profile. Appendix D Tables D-1 through D-20 define the NSS control
+          baselines and NSS-specific parameter values. Only the control
+          selection is transcribed here.
+
+      - uuid: b2747bf7-0e5b-4954-bb80-6b1881a63dbf
+        title: "NIST SP 800-53 Revision 5.2.0 Control Catalog (OSCAL)"
+        citation:
+          text: >-
+            National Institute of Standards and Technology, Special
+            Publication 800-53 Revision 5.2.0, "Security and Privacy Controls
+            for Information Systems and Organizations", OSCAL content
+            maintained at usnistgov/oscal-content.
+        rlinks:
+          - href: https://raw.githubusercontent.com/usnistgov/oscal-content/refs/tags/v1.6.0/nist.gov/SP800-53/rev5/xml/NIST_SP-800-53_rev5_catalog.xml
+            media-type: application/oscal.catalog+xml
+          - href: https://raw.githubusercontent.com/usnistgov/oscal-content/refs/tags/v1.6.0/nist.gov/SP800-53/rev5/json/NIST_SP-800-53_rev5_catalog.json
+            media-type: application/oscal.catalog+json
+          - href: https://raw.githubusercontent.com/usnistgov/oscal-content/refs/tags/v1.6.0/nist.gov/SP800-53/rev5/yaml/NIST_SP-800-53_rev5_catalog.yaml
+            media-type: application/oscal.catalog+yaml
+        remarks: >-
+          Underlying control catalog referenced by the `imports` block.

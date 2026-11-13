@@ -1,0 +1,101 @@
+# Example assessment activity for the Oxide Cloud Computer, release 23.
+# This is a fragment in the shape of an OSCAL assessment-plan activity, not a
+# complete OSCAL document. The `uses-method` links name shared methods that
+# are not yet defined in this repository. Written against the release 23
+# external API.
+activity:
+  uuid: 1ffd46e0-26d3-4864-91ab-ea9c5c6dff58
+  title: "Verify audit log retrieval supports review and analysis"
+  description: |
+    Confirms that the rack audit log API returns entries across a
+    caller-specified time range with the fields available to support
+    review, analysis, and reporting of inappropriate or unusual
+    activity: actor, operation ID, request URI, start and completion
+    time stamps (UTC), source address, authentication method, and
+    result.
+  props:
+    - name: method
+      ns: http://csrc.nist.gov/ns/oscal
+      value: TEST
+    - name: oxide-api-version
+      ns: https://oxide.computer/ns/oscal
+      value: "2026091500.0.0"
+    - name: automation-level
+      ns: https://oxide.computer/ns/oscal
+      value: fully-automatable
+    - name: responsibility
+      ns: https://oxide.computer/ns/oscal
+      value: customer-executed
+  related-controls:
+    control-selections:
+      - include-controls:
+          - control-id: au-6
+  links:
+    - href: "#method-auth-fleet-viewer"
+      rel: uses-method
+    - href: "#method-audit-log-query"
+      rel: uses-method
+  steps:
+    - uuid: 631cf8f0-3c1d-47a7-8b23-f406a3530714
+      title: "Establish a review window"
+      description: >
+        Set WINDOW_START to (now - 24h) and WINDOW_END to now,
+        expressed as RFC 3339 timestamps in UTC. Record both values.
+        The window must lie within the 90-day audit log retention
+        period.
+    - uuid: 24283ee2-1cec-4046-963e-df17249575c7
+      title: "Retrieve audit entries for the window"
+      description: >
+        With a fleet-viewer credential, GET
+        /v1/system/audit-log?start_time=WINDOW_START&end_time=WINDOW_END,
+        following next_page via page_token until exhausted. Persist
+        the concatenated items as audit-records.json. The time range
+        filters on time_completed; entries appear only once complete.
+    - uuid: 97d20acb-c5be-4a0e-87f1-4e425e4ceb74
+      title: "Assert record completeness"
+      description: >
+        Assert that audit-records.json is non-empty. For each entry,
+        assert that the following fields are present and non-null:
+        id, time_started, time_completed, request_id, request_uri,
+        operation_id, source_ip, actor (with kind), and result (with
+        kind). The fields auth_method, credential_id, and user_agent
+        may be null and are not asserted. Record the ids of any
+        entries failing this check.
+      props:
+        - name: evidence-artifact
+          value: audit-records.json
+        - name: evidence-artifact
+          value: field-coverage-report.json
+    - uuid: ce614188-9ca6-4b56-a51b-749e4c282d78
+      title: "Assert temporal ordering and coverage"
+      description: >
+        Assert that each entry's time_completed falls within
+        [WINDOW_START, WINDOW_END). Assert that the result includes
+        at least one entry whose actor kind is not "unauthenticated",
+        demonstrating that authenticated, state-changing API requests
+        are captured in addition to login attempts. If no such
+        request occurred in the window, the activity result is
+        inconclusive rather than failed; note this in remarks.
+      props:
+        - name: evidence-artifact
+          value: temporal-coverage-report.json
+  remarks: |
+    This activity verifies the retrieval and content of audit entries,
+    which is the provider-side foundation for AU-6. It does NOT verify
+    the customer's review process, frequency, or escalation procedures,
+    which are customer-responsible and must be evidenced separately
+    (typically EXAMINE of customer SOPs and INTERVIEW of SOC staff).
+
+    Scope of the audit log: it records authenticated, state-changing
+    requests to the external API, and login attempts. Read-only (GET)
+    requests, requests rejected at authentication, and technician port
+    activity outside the API proxy (wicket sessions, support SSH
+    sessions, management network unlock) are not recorded, so this
+    activity cannot evidence review of them. Entries have no resource
+    identifier field and no request body; the affected resource
+    appears only in request_uri and operation_id. Login entries do not
+    identify the user.
+
+    Inconclusive outcomes in the final step should prompt re-running
+    the activity over a longer window or one known to contain
+    administrative activity; they do not indicate a control failure.

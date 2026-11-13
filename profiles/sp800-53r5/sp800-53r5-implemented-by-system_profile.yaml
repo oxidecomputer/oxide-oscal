@@ -1,0 +1,507 @@
+# yaml-language-server: $schema=https://github.com/usnistgov/OSCAL/releases/download/v1.2.3/oscal_profile_schema.json
+profile:
+  uuid: 5092c109-4604-418a-8999-6cd801061101
+
+  metadata:
+    title: "NIST SP 800-53 Rev 5: Controls Implemented by an Information System"
+    last-modified: 2026-11-13T00:00:00Z
+    version: "0.1.0"
+    oscal-version: 1.2.3
+
+    roles:
+      - id: creator
+        title: Document Creator
+        description: >-
+          The Oxide team responsible for authoring and maintaining this OSCAL
+          profile.
+      - id: contact
+        title: Point of Contact
+        description: >-
+          The Oxide team to contact with questions about the content of this
+          OSCAL profile.
+
+    parties:
+      - uuid: 1fd0ef7d-e65f-483c-8ce0-f6d99eb6516e
+        type: organization
+        name: Oxide Computer Company
+        short-name: Oxide
+        links:
+          - href: https://oxide.computer
+            rel: website
+      - uuid: a182ded0-c5b0-4f37-b476-02b391327ce7
+        type: organization
+        name: Oxide Computer Company Security Team
+        email-addresses:
+          - security@oxidecomputer.com
+        member-of-organizations:
+          - 1fd0ef7d-e65f-483c-8ce0-f6d99eb6516e
+
+    responsible-parties:
+      - role-id: creator
+        party-uuids:
+          - a182ded0-c5b0-4f37-b476-02b391327ce7
+      - role-id: contact
+        party-uuids:
+          - a182ded0-c5b0-4f37-b476-02b391327ce7
+
+    remarks: >-
+      This profile selects controls from NIST SP 800-53 Rev 5 that are
+      classified as implemented by an information system according to the NIST
+      control summary information identifying whether each control is
+      implemented by an organization, an information system, or both (the
+      published NIST OSCAL catalog does not carry this classification as a
+      property; Oxide maintains it in this profile). Per the design intent, this
+      includes both controls classified as system-only and controls classified
+      as implemented by both the information system and the organization.
+
+      This profile has a companion profile,
+      `sp800-53r5-implemented-by-organization`, that captures the symmetric
+      selection. The two profiles overlap on controls classified as implemented
+      by both parties; the union of their resolved control selections equals the
+      set of non-withdrawn controls in the catalog.
+
+      Withdrawn controls are excluded from both profiles.
+
+      This profile is a control-selection artifact, not a security baseline. It
+      is intended to be intersected with security baselines (FedRAMP High, CNSSI
+      1253, etc.) by external tooling to identify the controls a system-level
+      component is responsible for addressing.
+
+  imports:
+    - href: "#883f5515-bdb1-48a7-82a2-eaecaf910919"
+      include-controls:
+        - with-ids:
+            - ac-2.2
+            - ac-2.3
+            - ac-2.4
+            - ac-2.5
+            - ac-2.6
+            - ac-2.8
+            - ac-2.11
+            - ac-2.12
+            - ac-3
+            - ac-3.2
+            - ac-3.3
+            - ac-3.4
+            - ac-3.5
+            - ac-3.7
+            - ac-3.8
+            - ac-3.9
+            - ac-3.11
+            - ac-3.12
+            - ac-3.13
+            - ac-3.14
+            - ac-3.15
+            - ac-4
+            - ac-4.1
+            - ac-4.2
+            - ac-4.3
+            - ac-4.4
+            - ac-4.5
+            - ac-4.6
+            - ac-4.7
+            - ac-4.8
+            - ac-4.9
+            - ac-4.10
+            - ac-4.11
+            - ac-4.12
+            - ac-4.13
+            - ac-4.14
+            - ac-4.15
+            - ac-4.17
+            - ac-4.19
+            - ac-4.21
+            - ac-4.22
+            - ac-4.23
+            - ac-4.24
+            - ac-4.25
+            - ac-4.26
+            - ac-4.27
+            - ac-4.28
+            - ac-4.29
+            - ac-4.30
+            - ac-4.31
+            - ac-4.32
+            - ac-6.4
+            - ac-6.8
+            - ac-6.9
+            - ac-6.10
+            - ac-7
+            - ac-7.2
+            - ac-7.4
+            - ac-8
+            - ac-9
+            - ac-9.1
+            - ac-9.2
+            - ac-9.3
+            - ac-9.4
+            - ac-10
+            - ac-11
+            - ac-11.1
+            - ac-12
+            - ac-12.1
+            - ac-12.2
+            - ac-12.3
+            - ac-16.1
+            - ac-16.2
+            - ac-16.3
+            - ac-16.4
+            - ac-16.5
+            - ac-16.8
+            - ac-17.1
+            - ac-17.2
+            - ac-17.3
+            - ac-17.10
+            - ac-18.1
+            - ac-18.3
+            - ac-21.1
+            - ac-21.2
+            - ac-24.1
+            - ac-24.2
+            - ac-25
+            - au-3
+            - au-3.1
+            - au-4
+            - au-4.1
+            - au-5
+            - au-5.1
+            - au-5.2
+            - au-5.3
+            - au-5.4
+            - au-6.4
+            - au-7
+            - au-7.1
+            - au-8
+            - au-9
+            - au-9.1
+            - au-9.2
+            - au-9.3
+            - au-9.5
+            - au-9.6
+            - au-10
+            - au-10.1
+            - au-10.2
+            - au-10.3
+            - au-10.4
+            - au-12
+            - au-12.1
+            - au-12.2
+            - au-12.3
+            - au-12.4
+            - au-13.1
+            - au-13.3
+            - au-14
+            - au-14.1
+            - au-14.3
+            - ca-3.6
+            - ca-3.7
+            - ca-7.4
+            - ca-7.6
+            - ca-9.1
+            - cm-3.5
+            - cm-3.8
+            - cm-5.1
+            - cm-5.4
+            - cm-5.6
+            - cm-6
+            - cm-7
+            - cm-7.1
+            - cm-7.2
+            - cm-7.4
+            - cm-7.5
+            - cm-7.7
+            - cm-7.8
+            - cm-7.9
+            - cm-11.2
+            - cm-11.3
+            - cm-14
+            - cp-4.5
+            - cp-12
+            - cp-13
+            - ia-2
+            - ia-2.1
+            - ia-2.2
+            - ia-2.5
+            - ia-2.6
+            - ia-2.8
+            - ia-2.10
+            - ia-2.12
+            - ia-2.13
+            - ia-3
+            - ia-3.1
+            - ia-4.5
+            - ia-4.9
+            - ia-5
+            - ia-5.1
+            - ia-5.2
+            - ia-5.10
+            - ia-5.12
+            - ia-5.13
+            - ia-5.17
+            - ia-5.18
+            - ia-6
+            - ia-7
+            - ia-8
+            - ia-8.1
+            - ia-8.2
+            - ia-8.4
+            - ia-8.5
+            - ia-9
+            - ia-11
+            - ia-13
+            - ia-13.1
+            - ia-13.2
+            - ia-13.3
+            - ir-4.5
+            - ir-4.14
+            - ma-3.4
+            - ma-3.5
+            - ma-3.6
+            - ma-4.6
+            - ma-4.7
+            - pe-5.2
+            - pt-2.1
+            - pt-3.1
+            - ra-10
+            - sa-8.1
+            - sa-8.2
+            - sa-8.3
+            - sa-8.4
+            - sa-8.5
+            - sa-8.6
+            - sa-8.7
+            - sa-8.8
+            - sa-8.9
+            - sa-8.10
+            - sa-8.11
+            - sa-8.12
+            - sa-8.13
+            - sa-8.14
+            - sa-8.15
+            - sa-8.16
+            - sa-8.17
+            - sa-8.18
+            - sa-8.19
+            - sa-8.20
+            - sa-8.21
+            - sa-8.22
+            - sa-8.23
+            - sa-8.24
+            - sa-8.25
+            - sa-8.26
+            - sa-8.27
+            - sa-8.28
+            - sa-8.29
+            - sa-8.30
+            - sa-8.31
+            - sa-8.32
+            - sa-8.33
+            - sc-2
+            - sc-2.1
+            - sc-2.2
+            - sc-3
+            - sc-3.1
+            - sc-3.2
+            - sc-3.3
+            - sc-3.4
+            - sc-3.5
+            - sc-4
+            - sc-4.2
+            - sc-5
+            - sc-5.1
+            - sc-5.2
+            - sc-5.3
+            - sc-6
+            - sc-7
+            - sc-7.3
+            - sc-7.5
+            - sc-7.7
+            - sc-7.8
+            - sc-7.9
+            - sc-7.10
+            - sc-7.11
+            - sc-7.12
+            - sc-7.13
+            - sc-7.14
+            - sc-7.15
+            - sc-7.16
+            - sc-7.17
+            - sc-7.18
+            - sc-7.19
+            - sc-7.20
+            - sc-7.21
+            - sc-7.22
+            - sc-7.23
+            - sc-7.24
+            - sc-7.29
+            - sc-8
+            - sc-8.1
+            - sc-8.2
+            - sc-8.3
+            - sc-8.4
+            - sc-8.5
+            - sc-10
+            - sc-11
+            - sc-11.1
+            - sc-12
+            - sc-12.1
+            - sc-12.2
+            - sc-12.3
+            - sc-12.6
+            - sc-13
+            - sc-15
+            - sc-15.1
+            - sc-15.4
+            - sc-16
+            - sc-16.1
+            - sc-16.2
+            - sc-16.3
+            - sc-17
+            - sc-18.1
+            - sc-18.3
+            - sc-18.4
+            - sc-18.5
+            - sc-20
+            - sc-20.2
+            - sc-21
+            - sc-22
+            - sc-23
+            - sc-23.1
+            - sc-23.3
+            - sc-23.5
+            - sc-24
+            - sc-25
+            - sc-26
+            - sc-27
+            - sc-28
+            - sc-28.1
+            - sc-28.3
+            - sc-32
+            - sc-32.1
+            - sc-34
+            - sc-35
+            - sc-39
+            - sc-39.1
+            - sc-39.2
+            - sc-40
+            - sc-40.1
+            - sc-40.2
+            - sc-40.3
+            - sc-40.4
+            - sc-41
+            - sc-42
+            - sc-43
+            - sc-44
+            - sc-45
+            - sc-45.1
+            - sc-45.2
+            - sc-46
+            - sc-47
+            - sc-48
+            - sc-48.1
+            - sc-49
+            - sc-50
+            - sc-51
+            - si-2.4
+            - si-2.5
+            - si-2.6
+            - si-2.7
+            - si-3
+            - si-3.4
+            - si-3.8
+            - si-4
+            - si-4.1
+            - si-4.2
+            - si-4.3
+            - si-4.4
+            - si-4.5
+            - si-4.7
+            - si-4.11
+            - si-4.12
+            - si-4.13
+            - si-4.14
+            - si-4.15
+            - si-4.16
+            - si-4.18
+            - si-4.20
+            - si-4.22
+            - si-4.24
+            - si-4.25
+            - si-6
+            - si-6.2
+            - si-7
+            - si-7.1
+            - si-7.2
+            - si-7.5
+            - si-7.6
+            - si-7.8
+            - si-7.9
+            - si-7.10
+            - si-7.12
+            - si-7.15
+            - si-7.17
+            - si-8.2
+            - si-8.3
+            - si-10
+            - si-10.1
+            - si-10.3
+            - si-10.4
+            - si-10.5
+            - si-10.6
+            - si-11
+            - si-13.4
+            - si-15
+            - si-16
+            - si-17
+            - si-18
+            - si-18.1
+            - si-18.2
+            - si-18.3
+            - si-18.4
+            - si-18.5
+            - si-19
+            - si-19.1
+            - si-19.2
+            - si-19.3
+            - si-19.4
+            - si-19.5
+            - si-19.6
+            - si-19.8
+            - si-20
+            - si-21
+            - si-22
+            - si-23
+            - sr-3
+
+  merge:
+    as-is: true
+
+  back-matter:
+    resources:
+      - uuid: 883f5515-bdb1-48a7-82a2-eaecaf910919
+        title: >-
+          Electronic (OSCAL) Version of NIST SP 800-53 Rev 5.2.0 Controls and SP
+          800-53A Rev 5.2.0 Assessment Procedures
+        description: >-
+          NIST Special Publication 800-53 Revision 5 Security and Privacy
+          Controls for Information Systems and Organizations. Source catalog for
+          this profile's control selection.
+        rlinks:
+          - href: https://raw.githubusercontent.com/usnistgov/oscal-content/refs/tags/v1.6.0/nist.gov/SP800-53/rev5/xml/NIST_SP-800-53_rev5_catalog.xml
+            media-type: application/oscal.catalog+xml
+          - href: https://raw.githubusercontent.com/usnistgov/oscal-content/refs/tags/v1.6.0/nist.gov/SP800-53/rev5/json/NIST_SP-800-53_rev5_catalog.json
+            media-type: application/oscal.catalog+json
+          - href: https://raw.githubusercontent.com/usnistgov/oscal-content/refs/tags/v1.6.0/nist.gov/SP800-53/rev5/yaml/NIST_SP-800-53_rev5_catalog.yaml
+            media-type: application/oscal.catalog+yaml
+
+      - uuid: b89b3a98-a2e8-49b0-a63e-8f51ce9b472b
+        title: >-
+          NIST SP 800-53 Rev 5: Controls Implemented by an Organization
+          (companion profile)
+        description: >-
+          Companion profile that selects controls classified as implemented by
+          an organization. Together with this profile, the two cover all
+          non-withdrawn controls in the catalog.
+        rlinks:
+          - href: "./sp800-53r5-implemented-by-organization_profile.yaml"
+            media-type: application/oscal.profile+yaml

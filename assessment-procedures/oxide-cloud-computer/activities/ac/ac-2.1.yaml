@@ -1,0 +1,131 @@
+# Example assessment activity for the Oxide Cloud Computer, release 23.
+# This is a fragment in the shape of an OSCAL assessment-plan activity, not a
+# complete OSCAL document. The `uses-method` links name shared methods that
+# are not yet defined in this repository. Written against the release 23
+# external API.
+activity:
+  uuid: 6c0fbb26-92f5-4a40-b604-7b6074cd9b4a
+  title: "Verify silo account management is driven by an automated mechanism"
+  description: |
+    Confirms that for each silo in scope, account lifecycle events
+    (creation, modification, disablement, removal) originate from an
+    automated identity source, namely an external SCIM client, and not
+    from interactive operator action. Identifies silos that rely on
+    manual account management or on just-in-time provisioning alone,
+    which do not fully meet AC-2(1).
+  props:
+    - name: method
+      ns: http://csrc.nist.gov/ns/oscal
+      value: TEST
+    - name: oxide-api-version
+      ns: https://oxide.computer/ns/oscal
+      value: "2026091500.0.0"
+    - name: automation-level
+      ns: https://oxide.computer/ns/oscal
+      value: fully-automatable
+    - name: responsibility
+      ns: https://oxide.computer/ns/oscal
+      value: customer-executed
+    - name: configuration-dependent
+      ns: https://oxide.computer/ns/oscal
+      value: "true"
+  related-controls:
+    control-selections:
+      - include-controls:
+          - control-id: ac-2.1
+  links:
+    - href: "#method-auth-fleet-viewer"
+      rel: uses-method
+    - href: "#method-audit-log-query"
+      rel: uses-method
+  steps:
+    - uuid: e1b23019-50ce-4cfd-ad64-f9edd8007cea
+      title: "Enumerate silos in scope"
+      description: >
+        With a fleet-viewer credential, GET /v1/system/silos,
+        paginating to completion. Persist as silos.json. The set of
+        silos in scope for this activity is defined by the
+        assessment-subjects in the importing AP; if unspecified,
+        default to all silos returned.
+    - uuid: 3d782afe-9d2f-4c05-b861-94e0f9bd74fd
+      title: "Record the identity mode of each silo"
+      description: >
+        For each silo, record identity_mode from the silo object:
+        saml_scim (SAML authentication with SCIM provisioning),
+        saml_jit (SAML authentication with just-in-time user
+        creation), or local_only. The mode is fixed when the silo is
+        created. For SAML silos, also GET
+        /v1/system/identity-providers?silo={silo.name} and record the
+        configured providers. Persist as idp-config.json.
+      props:
+        - name: evidence-artifact
+          value: idp-config.json
+    - uuid: 60f2d551-dc75-4ea6-9e8a-43ed0d5cde8d
+      title: "Sample recent account lifecycle events"
+      description: >
+        GET /v1/system/audit-log for the preceding 30 days. The API
+        filters only by time range, so select entries client-side:
+        keep those whose operation_id is one of scim_v2_create_user,
+        scim_v2_put_user, scim_v2_patch_user, scim_v2_delete_user,
+        local_idp_user_create, local_idp_user_delete, or
+        local_idp_user_set_password, and group them by the silo_id
+        in the actor (or, for local user operations performed by a
+        fleet administrator, by the silo named in request_uri).
+        Persist as account-events-{silo}.json.
+      props:
+        - name: evidence-artifact
+          value: account-events-{silo}.json
+    - uuid: 68694c91-746e-4af2-b43c-8f406388de43
+      title: "Classify each event by origination"
+      description: >
+        Classify each event as "automated" if actor.kind is "scim"
+        (a SCIM client), or "manual" if actor.kind is "silo_user" or
+        "user_builtin". Produce a per-silo summary: count and
+        percentage of account lifecycle events in each category over
+        the window. Just-in-time user creation happens during SAML
+        login; login entries do not identify the user, so JIT
+        creation cannot be counted from the audit log.
+      props:
+        - name: evidence-artifact
+          value: origination-summary.json
+    - uuid: b86ffc0c-bb6d-412e-8e4f-8213996a46a0
+      title: "Evaluate per-silo outcome"
+      description: >
+        For each silo, the outcome is:
+        - "satisfied" if identity_mode is saml_scim AND at least 95%
+          of lifecycle events in the window are "automated";
+        - "not-satisfied" if identity_mode is local_only, OR manual
+          events exceed 5% of the window total;
+        - "other-than-satisfied, review required" if identity_mode
+          is saml_jit: users are created automatically at first
+          login, but the component does not remove or disable them
+          when they are removed at the identity provider, and
+          creation leaves no attributable audit entry;
+        - "inconclusive" if a saml_scim silo has fewer than 5
+          lifecycle events in the window (insufficient sample).
+        Record per-silo outcomes and the overall activity outcome
+        as the worst case across silos in scope.
+  remarks: |
+    This control is configuration-dependent: AC-2(1) can only be
+    satisfied when the customer has created the silo with SCIM
+    provisioning and routes account lifecycle through it. The rack
+    provides the SAML and SCIM mechanisms but does not mandate their
+    use, and a silo's identity mode cannot be changed after creation.
+    A "not-satisfied" outcome here is a customer configuration
+    finding, not a provider defect.
+
+    The built-in recovery silo is local-only by design and will
+    always be "not-satisfied"; the SSP author should document it as a
+    break-glass exception.
+
+    The 95%/5% thresholds are defaults; importers may override them
+    via assessment-plan parameters for environments where a small
+    number of break-glass manual actions are expected and documented.
+    The 30-day window and 5-event minimum sample size are likewise
+    defaults and should be tuned to the silo's expected churn. The
+    window cannot exceed the 90-day audit log retention period.
+
+    Silos with only local accounts or with just-in-time provisioning
+    alone should be flagged for the SSP author to document
+    explicitly, either as an accepted risk with compensating controls
+    or as remediation work.

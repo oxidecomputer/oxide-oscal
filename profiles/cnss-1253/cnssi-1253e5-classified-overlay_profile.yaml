@@ -1,0 +1,226 @@
+# yaml-language-server: $schema=https://github.com/usnistgov/OSCAL/releases/download/v1.2.3/oscal_profile_schema.json
+# ============================================================================
+# CNSSI No. 1253 Appendix E Attachment 5: Classified System Overlay
+# Applied on top of the CNSSI 1253 H-H-H NSS Baseline
+# OSCAL Profile (non-authoritative transcription)
+# ----------------------------------------------------------------------------
+# Source documents:
+#   - CNSSI No. 1253 Appendix E Attachment 5 (CNSSI 1253E5),
+#     "Classified System Overlay", September 2022
+#     https://www.cnss.gov/  (canonical host)
+#   - CNSSI No. 1253, 29 July 2022 (base Instruction, supplies the H-H-H
+#     baseline via the companion profile)
+# Authority note:
+#   CNSS has not published an official OSCAL profile for CNSSI 1253E5.
+#   This file is a transcription authored by Oxide Computer
+#   Company. Discrepancies are resolved in favor of the CNSS-published
+#   PDFs.
+# Profile structure:
+#   This profile layers the Classified System Overlay on top of the
+#   CNSSI 1253 H-H-H profile. It imports the base H-H-H profile in full,
+#   then imports the SP 800-53 Rev 5 catalog to bring in controls that
+#   are introduced by the overlay but not present in H-H-H. Overlay
+#   parameter values are NOT yet transcribed (see the commented-out
+#   `modify` section).
+# ============================================================================
+
+profile:
+  uuid: f499588a-3be5-4d84-a50c-de9e1e511477
+
+  metadata:
+    title: "CNSSI 1253E5 Classified System Overlay (on H-H-H): Oxide Transcription"
+    published: 2026-04-21T00:00:00Z
+    last-modified: 2026-11-13T00:00:00Z
+    version: "0.1.0"
+    oscal-version: 1.2.3
+
+    roles:
+      - id: component-provider
+        title: Component Provider
+      - id: creator
+        title: Document Creator
+      - id: contact
+        title: Point of Contact
+
+    parties:
+      - uuid: 1fd0ef7d-e65f-483c-8ce0-f6d99eb6516e
+        type: organization
+        name: Oxide Computer Company
+        short-name: Oxide
+        links:
+          - href: https://oxide.computer
+            rel: website
+      - uuid: a182ded0-c5b0-4f37-b476-02b391327ce7
+        type: organization
+        name: Oxide Computer Company Security Team
+        email-addresses:
+          - security@oxidecomputer.com
+        member-of-organizations:
+          - 1fd0ef7d-e65f-483c-8ce0-f6d99eb6516e
+
+    responsible-parties:
+      - role-id: creator
+        party-uuids:
+          - a182ded0-c5b0-4f37-b476-02b391327ce7
+      - role-id: contact
+        party-uuids:
+          - a182ded0-c5b0-4f37-b476-02b391327ce7
+
+    remarks: >-
+      This profile composes the CNSSI 1253 H-H-H baseline with the
+      Classified System Overlay (CNSSI 1253E5, September 2022). It is the
+      appropriate reference for Oxide component-definition implementations
+      targeting classified National Security Systems. The base 1253 H-H-H
+      profile, imported below, is the companion document.
+
+      This profile is a non-authoritative transcription authored by Oxide
+      Computer Company; conflicts are resolved in favor of the published
+      CNSS documents. It carries the control selection only: the overlay's
+      parameter values are not transcribed.
+
+  # --------------------------------------------------------------------------
+  # Imports:
+  #   1. The base CNSSI 1253 H-H-H profile - all controls and parameters
+  #      inherited in full.
+  #   2. The SP 800-53 Rev 5 catalog - used to pull in any additional
+  #      controls introduced by the Classified System Overlay that are
+  #      not already in the H-H-H baseline.
+  # --------------------------------------------------------------------------
+  imports:
+    - href: "./cnssi-1253-hhh_profile.yaml"
+      # Update to a stable absolute URL (e.g., raw GitHub) once this and the
+      # base profile are hosted.
+      include-all: {}
+
+    - href: "#802a6043-e2f5-4357-a4c6-95fbe0e18d6f"
+      include-controls:
+        - with-ids:
+            # Access Control (AC)
+            - ac-3.2
+            - ac-16.5
+            - ac-19.4
+            - ac-20.4
+
+            # Audit and Accountability (AU)
+            - au-6.8
+            - au-6.9
+
+            # MP (Media Protection)
+            - mp-5.3
+            - mp-8
+            - mp-8.1
+            - mp-8.2
+            - mp-8.4
+
+            # PE (Physical and Environmental Protection)
+            - pe-2.3
+            - pe-3.2
+            - pe-19
+            - pe-19.1
+
+            # PM (Program Management)
+            - pm-12
+
+            # PS (Personnel Security)
+            - ps-3.1
+            - ps-6.2
+
+            # RA (Risk Assessment)
+            - ra-6
+
+            # SA (System and Services Acquisition)
+            - sa-4.6
+
+            # System and Communications Protection (SC)
+            - sc-7.26
+            - sc-8.3
+            - sc-8.4
+            - sc-12.2
+            - sc-12.3
+            - sc-15.3
+            - sc-42
+
+            # System and Information Integrity (SI)
+            - si-4.21
+
+  merge:
+    as-is: true
+
+  # --------------------------------------------------------------------------
+  # Modify: overlay-specific parameter tightening. NOT YET POPULATED.
+  # The Classified System Overlay typically narrows organization-defined
+  # parameters (e.g., shorter review intervals, stricter classification
+  # markings, tighter access review cadence). Capture each such tightening
+  # as a set-parameter entry.
+  # --------------------------------------------------------------------------
+  # modify:
+  #   set-parameters:
+  #     # ====================================================================
+  #     # TRANSCRIPTION TODO - populate from CNSSI 1253E5 parameter guidance.
+  #     # When the overlay tightens a parameter already set by the base
+  #     # 1253 H-H-H profile, the overlay value wins (OSCAL profile
+  #     # resolution applies the outermost profile's modify last).
+  #     # ====================================================================
+
+  #     # Illustrative: a tighter access-review cadence the overlay might impose
+  #     - param-id: PLACEHOLDER_PARAM_ID
+  #       values:
+  #         - "REPLACE_WITH_OVERLAY_VALUE"
+  #       remarks: >-
+  #         Replace with a real parameter ID and value from CNSSI 1253E5.
+
+  #   # alters:
+  #   #   Use `alters` if the overlay adds supplemental guidance or props to
+  #   #   an existing control (e.g., a TEMPEST-related remark attached to a
+  #   #   specific PE control). Most overlay content is captured via
+  #   #   include-controls and set-parameters.
+
+  # --------------------------------------------------------------------------
+  # Back-matter - cite both the overlay document and the base profile.
+  # --------------------------------------------------------------------------
+  back-matter:
+    resources:
+      - uuid: c00211c4-bf57-4b84-91c7-07abafa9cf5c
+        title: "CNSSI No. 1253 Appendix E Attachment 5 (CNSSI 1253E5), Classified System Overlay"
+        citation:
+          text: >-
+            Committee on National Security Systems, CNSSI No. 1253
+            Appendix E Attachment 5 (CNSSI 1253E5), "Classified System
+            Overlay", September 2022.
+        rlinks:
+          - href: https://www.cnss.gov/
+            media-type: text/html
+        props:
+          - name: version
+            value: "2022-09"
+        remarks: >-
+          Authoritative source for the overlay controls and parameter
+          values transcribed in this profile.
+
+      - uuid: da749b67-a8ec-4fa4-987d-714f8ab24bbd
+        title: "CNSSI No. 1253 H-H-H NSS Baseline: Oxide Transcription (base profile)"
+        rlinks:
+          - href: "./cnssi-1253-hhh_profile.yaml"
+            media-type: application/yaml
+        remarks: >-
+          The companion base profile whose H-H-H control selection is
+          inherited by this overlay profile. Update `rlinks.href` to the
+          absolute hosted URL once published.
+
+      - uuid: 802a6043-e2f5-4357-a4c6-95fbe0e18d6f
+        title: "NIST SP 800-53 Revision 5.2.0 Control Catalog (OSCAL)"
+        citation:
+          text: >-
+            National Institute of Standards and Technology, Special
+            Publication 800-53 Revision 5.2.0, "Security and Privacy Controls
+            for Information Systems and Organizations", OSCAL content
+            maintained at usnistgov/oscal-content.
+        rlinks:
+          - href: https://raw.githubusercontent.com/usnistgov/oscal-content/refs/tags/v1.6.0/nist.gov/SP800-53/rev5/xml/NIST_SP-800-53_rev5_catalog.xml
+            media-type: application/oscal.catalog+xml
+          - href: https://raw.githubusercontent.com/usnistgov/oscal-content/refs/tags/v1.6.0/nist.gov/SP800-53/rev5/json/NIST_SP-800-53_rev5_catalog.json
+            media-type: application/oscal.catalog+json
+          - href: https://raw.githubusercontent.com/usnistgov/oscal-content/refs/tags/v1.6.0/nist.gov/SP800-53/rev5/yaml/NIST_SP-800-53_rev5_catalog.yaml
+            media-type: application/oscal.catalog+yaml
+        remarks: >-
+          Underlying control catalog referenced by the `imports` block.

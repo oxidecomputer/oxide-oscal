@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+# Sets last-modified in the component definition to today's date (UTC)
+# whenever the file is part of a commit.
+# Enable once per clone with: git config core.hooksPath .githooks
+set -euo pipefail
+
+FILE="oxide_component_definition.yaml"
+
+if ! git diff --cached --name-only | grep -qxF "$FILE"; then
+    exit 0
+fi
+
+TIMESTAMP="$(date -u +"%Y-%m-%dT00:00:00Z")"
+
+# perl, not sed -i, so this behaves the same on macOS and Linux.
+TIMESTAMP="$TIMESTAMP" perl -pi -e \
+    's|^(\s*last-modified:\s*).*$|$1$ENV{TIMESTAMP}|' "$FILE"
+
+git add "$FILE"
